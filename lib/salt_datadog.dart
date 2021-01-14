@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/assertions.dart';
 
 class SaltDatadog {
   static const MethodChannel _channel = const MethodChannel('salt_datadog');
@@ -9,29 +9,103 @@ class SaltDatadog {
     return version;
   }
 
-  static void logError(FlutterErrorDetails flutterErrorDetails) async {
-    // addError(<message>, <source>, <throwable>, <attributes>)
-    await _channel.invokeMethod('addError', {
-      'message': flutterErrorDetails.exception.toString(),
-    });
-  }
-
-  static void startView({String viewKey}) async {
+  static Future<void> startView({
+    @required String viewName,
+    String viewKey,
+    Map attributes,
+  }) async {
     await _channel.invokeMethod('startView', {
-      'viewKey': viewKey,
+      'viewKey': viewKey ?? '',
+      'viewName': viewName ?? '',
+      'attributes': attributes ?? Map<String, String>(),
     });
   }
 
-  static void stopView({String viewKey}) async {
+  static Future<void> stopView({
+    String viewKey,
+    Map attributes,
+  }) async {
     await _channel.invokeMethod('stopView', {
-      'viewKey': viewKey,
+      'viewKey': viewKey ?? '',
+      'attributes': attributes ?? Map<String, String>(),
     });
   }
 
-  static void mockLogError(String messasge) async {
-    // addError(<message>, <source>, <throwable>, <attributes>)
+  static Future<void> addUserAction({
+    @required String name,
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('addUserAction', {
+      'name': name ?? '',
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> startUserAction({
+    @required String name,
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('startUserAction', {
+      'name': name ?? '',
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> stopUserAction({
+    @required String name,
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('stopUserAction', {
+      'name': name ?? '',
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> startResource({
+    @required String method,
+    @required String url,
+    String key,
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('startResource', {
+      'key': key ?? '',
+      'method': method ?? '',
+      'url': url ?? '',
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> stopResource({
+    int statusCode,
+    int size,
+    String key,
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('stopResource', {
+      'key': key ?? '',
+      'statusCode': statusCode ?? 0,
+      'size': size ?? 0,
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> logErrorMessage(
+    String messasge, {
+    Map attributes,
+  }) async {
     await _channel.invokeMethod('addError', {
       'message': messasge,
+      'attributes': attributes ?? Map<String, String>(),
+    });
+  }
+
+  static Future<void> logError(
+    FlutterErrorDetails flutterErrorDetails, {
+    Map attributes,
+  }) async {
+    await _channel.invokeMethod('addError', {
+      'message': flutterErrorDetails.exception.toString(),
+      'attributes': attributes ?? Map<String, String>(),
     });
   }
 }

@@ -10,6 +10,8 @@ import com.datadog.android.privacy.TrackingConsent;
 import com.datadog.android.rum.GlobalRum;
 import com.datadog.android.rum.RumErrorSource;
 import com.datadog.android.rum.RumMonitor;
+import com.datadog.android.rum.RumActionType;
+import com.datadog.android.rum.RumResourceKind;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,29 +40,143 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("init")) {
-            DatadogConfig config = new DatadogConfig.Builder("pub6de5d25ee61dc1cb99f774e8f935c2ca", "development", "441316d2-4c7b-4317-b3d4-77bb4a66927d")
-                    .useEUEndpoints()
-                    .setRumEnabled(true)
-                    .build();
-            Datadog.initialize(this.flutterPluginBinding.getApplicationContext(), TrackingConsent.GRANTED, config);
+            DatadogConfig config = new DatadogConfig.Builder(
+                "pub6de5d25ee61dc1cb99f774e8f935c2ca", 
+                "development",
+                "441316d2-4c7b-4317-b3d4-77bb4a66927d"
+            )
+            .useEUEndpoints()
+            .setRumEnabled(true)
+            .build();
+            Datadog.initialize(
+                this.flutterPluginBinding.getApplicationContext(),
+                TrackingConsent.GRANTED,
+                config
+            );
+            Datadog.setVerbosity(Log.INFO);
             GlobalRum.registerIfAbsent(new RumMonitor.Builder().build());
             result.success(true);
         } else if (call.method.equals("addError")) {
             String message = call.argument("message");
-            GlobalRum.get().addError(message, RumErrorSource.LOGGER, new Throwable(), new HashMap<String, String>());
-            Log.d("addError", message);
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "addError", 
+                "message='" + message + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().addError(
+                message, 
+                RumErrorSource.LOGGER, 
+                null, 
+                attributes
+            );
         } else if (call.method.equals("startView")) {
-            Map<String, String> map = new HashMap<>();
-            map.put("test", "Amit");
-            String viewKey = call.argument("viewKey");
-            GlobalRum.get().startView(viewKey, viewKey, map);
-            Log.d("startView", viewKey);
+            String viewKey = call.argument("viewKey").toString();
+            String viewName = call.argument("viewName").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "startView", 
+                "viewName='" + viewName + "', " +
+                "viewKey='" + viewKey + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().startView(viewKey, viewName, attributes);
+            result.success(true);
         } else if (call.method.equals("stopView")) {
-            Map<String, String> map = new HashMap<>();
-            map.put("test", "Amit");
-            String viewKey = call.argument("viewKey");
-            GlobalRum.get().stopView(viewKey, map);
-            Log.d("stopView", viewKey);
+            String viewKey = call.argument("viewKey").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "stopView", 
+                "viewKey='" + viewKey + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().stopView(viewKey, attributes);
+            result.success(true);
+        } else if (call.method.equals("addUserAction")) {
+            String name = call.argument("name").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "addUserAction", 
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().addUserAction(
+                RumActionType.CUSTOM,
+                name, 
+                attributes
+            );
+            result.success(true);
+        } else if (call.method.equals("startUserAction")) {
+            String name = call.argument("name").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "startUserAction", 
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().startUserAction(
+                RumActionType.CUSTOM,
+                name, 
+                attributes
+            );
+            result.success(true);
+        } else if (call.method.equals("stopUserAction")) {
+            String name = call.argument("name").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "stopUserAction", 
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().stopUserAction(
+                RumActionType.CUSTOM,
+                name, 
+                attributes
+            );
+            result.success(true);
+        } else if (call.method.equals("startResource")) {
+            String key = call.argument("key").toString();
+            String method = call.argument("method").toString();
+            String url = call.argument("url").toString();
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "startResource", 
+                "key='" + key + "', " +
+                "method='" + method + "', " +
+                "url='" + url + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().startResource(
+                key,
+                method,
+                url, 
+                attributes
+            );
+            result.success(true);
+        } else if (call.method.equals("stopResource")) {
+            String key = call.argument("key").toString();
+            int statusCode = Integer.parseInt(
+                call.argument("statusCode").toString()
+            );
+            long size = Integer.parseInt(
+                call.argument("size").toString()
+            );
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "stopResource", 
+                "key='" + key + "', " +
+                "statusCode='" + statusCode + "', " +
+                "size='" + size + "', " +
+                "attributes=" + attributes.toString()
+            );
+            GlobalRum.get().stopResource(
+                key,
+                statusCode,
+                size,
+                RumResourceKind.DOCUMENT,
+                attributes
+            );
+            result.success(true);
         } else {
             result.notImplemented();
         }
