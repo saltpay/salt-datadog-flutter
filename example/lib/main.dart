@@ -1,16 +1,22 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salt_datadog/salt_datadog.dart';
 
 void main() {
-  FlutterError.onError = (errorDetails) {
-    SaltDatadog.logError(errorDetails);
+  FlutterError.onError = (errorDetails) async {
+    print(errorDetails.exceptionAsString());
+    print(errorDetails.stack);
+    await SaltDatadog.logError(errorDetails);
   };
 
-  runApp(MyApp());
+  runZoned(() {
+    runApp(MyApp());
+  }, onError: (e, stackTrace) {
+    print('[$e] [$stackTrace]');
+  });
 }
 
 final NavigatorObserver navigatorObserver = new NavigatorObserver();
@@ -23,19 +29,21 @@ class MyApp extends StatefulWidget {
 class DatadogNavigatorObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    SaltDatadog.stopView(viewKey: previousRoute?.settings?.name);
-    SaltDatadog.startView(viewKey: route?.settings?.name);
-    log('didPush route=${route?.settings?.name} previousRoute=${previousRoute?.settings?.name}');
+    // SaltDatadog.stopView(viewKey: previousRoute?.settings?.name);
+    // SaltDatadog.startView(viewKey: route?.settings?.name);
+    // log('didPush route=${route?.settings?.name} previousRoute=${previousRoute?.settings?.name}');
   }
 }
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  int viewNumber = 0;
+  bool viewStarted = false;
 
   @override
   void dispose() {
     print('dispose');
-    SaltDatadog.stopView(viewKey: '/home');
+    // SaltDatadog.stopView(viewKey: '/home');
     super.dispose();
   }
 
@@ -50,23 +58,15 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       final result = await SaltDatadog.init();
-      print(result.toString());
-
-      SaltDatadog.mockLogError('OMG');
-      SaltDatadog.startView(viewKey: '/home');
+      print('init: ${result.toString()}');
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -74,15 +74,138 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  random(List<dynamic> list) {
+    return (list..shuffle()).first;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final now = () => DateTime.now().toIso8601String();
     return MaterialApp(
-      navigatorObservers: [DatadogNavigatorObserver()],
+      // navigatorObservers: [DatadogNavigatorObserver()],
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Datadog demo application'),
         ),
-        body: Page1(),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () async {
+                      await SaltDatadog.startView(
+                        viewName: '/home/$viewNumber',
+                      );
+                      setState(() {
+                        viewNumber += 1;
+                        viewStarted = true;
+                      });
+                    },
+                    child: Text('Start view ($viewNumber)'),
+                    color: viewStarted ? Colors.red : Color(0xFFCCCCCC),
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      if (viewNumber == 0) {
+                        return;
+                      }
+                      await SaltDatadog.stopView();
+                      setState(() {
+                        viewStarted = false;
+                      });
+                    },
+                    child: Text('Stop view'),
+                  ),
+                ],
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  await SaltDatadog.addUserAction(
+                    name: 'custom-user-action-$viewNumber',
+                  );
+                },
+                child: Text('Add user action ($viewNumber)'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () async {
+                      await SaltDatadog.startUserAction(
+                        name: 'user-action-$viewNumber',
+                      );
+                    },
+                    child: Text('Start user action ($viewNumber)'),
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      await SaltDatadog.stopUserAction(
+                        name: 'user-action-$viewNumber',
+                      );
+                    },
+                    child: Text('Stop user action'),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () async {
+                      final methods = ['get', 'post', 'put', 'patch', 'delete'];
+                      final urls = [
+                        'https://google.com',
+                        'https://twitter.com',
+                        'https://saltpay.co',
+                      ];
+                      await SaltDatadog.startResource(
+                        method: random(methods),
+                        url: random(urls),
+                      );
+                    },
+                    child: Text('Start resource ($viewNumber)'),
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      final statusCodes = [404, 201, 500, 400, 200];
+                      final statusCode = (statusCodes..shuffle()).first;
+                      final size = Random().nextInt(1000);
+                      await SaltDatadog.stopResource(
+                        statusCode: statusCode,
+                        size: size,
+                      );
+                    },
+                    child: Text('Stop resource'),
+                  ),
+                ],
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  await SaltDatadog.logErrorMessage(
+                    'I am a log message from view $viewNumber at ${now()}',
+                  );
+                },
+                child: Text('Log error message'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  throw Exception('I am a dummy exception');
+                  // FlutterError.reportError(
+                  //   FlutterErrorDetails(
+                  //     exception: SocketException('This is a socket exception'),
+                  //     library: 'main.dart',
+                  //     context: ErrorSummary('Artificial error'),
+                  //   ),
+                  // );
+                },
+                child: Text('Throw an error'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
