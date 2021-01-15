@@ -12,6 +12,7 @@ import com.datadog.android.rum.RumErrorSource;
 import com.datadog.android.rum.RumMonitor;
 import com.datadog.android.rum.RumActionType;
 import com.datadog.android.rum.RumResourceKind;
+import com.datadog.android.log.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +24,10 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-/**
- * SaltDatadogPlugin
- */
-public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
+    public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
     private MethodChannel channel;
     private FlutterPluginBinding flutterPluginBinding;
+    private Logger datadogLogger;
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -55,6 +54,16 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             );
             Datadog.setVerbosity(Log.INFO);
             GlobalRum.registerIfAbsent(new RumMonitor.Builder().build());
+
+            datadogLogger = new Logger.Builder()
+                .setNetworkInfoEnabled(true)
+                .setServiceName("co.saltpay.terminal.salt.development")
+                .setLogcatLogsEnabled(true)
+                .setDatadogLogsEnabled(true)
+                .setLoggerName("datadog")
+                .build();
+
+            datadogLogger.d("Datadog initialized");
             result.success(true);
         } else if (call.method.equals("addError")) {
             String message = call.argument("message");
@@ -64,18 +73,30 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                 "message='" + message + "', " +
                 "attributes=" + attributes.toString()
             );
+            datadogLogger.d(
+                "addError: " +
+                "message='" + message + "', " +
+                "attributes=" + attributes.toString()
+            );
             GlobalRum.get().addError(
                 message, 
                 RumErrorSource.LOGGER, 
                 null, 
                 attributes
             );
+            result.success(true);            
         } else if (call.method.equals("startView")) {
             String viewKey = call.argument("viewKey").toString();
             String viewName = call.argument("viewName").toString();
             Map<String, String> attributes = call.argument("attributes");
             Log.d(
                 "startView", 
+                "viewName='" + viewName + "', " +
+                "viewKey='" + viewKey + "', " +
+                "attributes=" + attributes.toString()
+            );
+            datadogLogger.d(
+                "startView: " +
                 "viewName='" + viewName + "', " +
                 "viewKey='" + viewKey + "', " +
                 "attributes=" + attributes.toString()
@@ -90,6 +111,11 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                 "viewKey='" + viewKey + "', " +
                 "attributes=" + attributes.toString()
             );
+            datadogLogger.d(
+                "stopView: " +
+                "viewKey='" + viewKey + "', " +
+                "attributes=" + attributes.toString()
+            );
             GlobalRum.get().stopView(viewKey, attributes);
             result.success(true);
         } else if (call.method.equals("addUserAction")) {
@@ -97,6 +123,11 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             Map<String, String> attributes = call.argument("attributes");
             Log.d(
                 "addUserAction", 
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
+            datadogLogger.d(
+                "addUserAction: " +
                 "name='" + name + "', " +
                 "attributes=" + attributes.toString()
             );
@@ -114,6 +145,11 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                 "name='" + name + "', " +
                 "attributes=" + attributes.toString()
             );
+            datadogLogger.d(
+                "startUserAction: " +
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
             GlobalRum.get().startUserAction(
                 RumActionType.CUSTOM,
                 name, 
@@ -125,6 +161,11 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             Map<String, String> attributes = call.argument("attributes");
             Log.d(
                 "stopUserAction", 
+                "name='" + name + "', " +
+                "attributes=" + attributes.toString()
+            );
+            datadogLogger.d(
+                "stopUserAction: " +
                 "name='" + name + "', " +
                 "attributes=" + attributes.toString()
             );
@@ -141,6 +182,13 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             Map<String, String> attributes = call.argument("attributes");
             Log.d(
                 "startResource", 
+                "key='" + key + "', " +
+                "method='" + method + "', " +
+                "url='" + url + "', " +
+                "attributes=" + attributes.toString()
+            );
+            datadogLogger.d(
+                "startResource: " +
                 "key='" + key + "', " +
                 "method='" + method + "', " +
                 "url='" + url + "', " +
@@ -169,12 +217,32 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                 "size='" + size + "', " +
                 "attributes=" + attributes.toString()
             );
+            datadogLogger.d(
+                "stopResource: " +
+                "key='" + key + "', " +
+                "statusCode='" + statusCode + "', " +
+                "size='" + size + "', " +
+                "attributes=" + attributes.toString()
+            );
             GlobalRum.get().stopResource(
                 key,
                 statusCode,
                 size,
                 RumResourceKind.DOCUMENT,
                 attributes
+            );
+            result.success(true);
+        } else if (call.method.equals("log")) {
+            String message = call.argument("message");
+            Map<String, String> attributes = call.argument("attributes");
+            Log.d(
+                "log", 
+                "message='" + message + "', " +
+                "attributes=" + attributes.toString()
+            );
+            datadogLogger.d(
+                "message='" + message + "', " +
+                "attributes=" + attributes.toString()
             );
             result.success(true);
         } else {

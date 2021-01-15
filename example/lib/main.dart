@@ -184,8 +184,16 @@ class _MyAppState extends State<MyApp> {
               ),
               RaisedButton(
                 onPressed: () async {
-                  await SaltDatadog.logErrorMessage(
+                  await SaltDatadog.log(
                     'I am a log message from view $viewNumber at ${now()}',
+                  );
+                },
+                child: Text('Log a message'),
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  await SaltDatadog.logErrorMessage(
+                    'I am an error log message from view $viewNumber at ${now()}',
                   );
                 },
                 child: Text('Log error message'),
