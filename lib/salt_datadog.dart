@@ -99,16 +99,6 @@ class SaltDatadog {
     });
   }
 
-  static Future<void> logFlutterError(
-    FlutterErrorDetails flutterErrorDetails, {
-    Map attributes,
-  }) async {
-    await _channel.invokeMethod('addError', {
-      'message': flutterErrorDetails.exception.toString(),
-      'attributes': attributes ?? Map<String, String>(),
-    });
-  }
-
   static Future<void> log(
     String message, {
     Map attributes,
