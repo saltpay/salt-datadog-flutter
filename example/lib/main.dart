@@ -1,21 +1,29 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:salt_datadog/salt_datadog.dart';
 
 void main() {
-  FlutterError.onError = (errorDetails) async {
-    print(errorDetails.exceptionAsString());
-    print(errorDetails.stack);
-    await SaltDatadog.logError(errorDetails);
+  FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+    final message = errorDetails.toString();
+    print(message);
+    await SaltDatadog.startView(viewName: 'FLUTTER_ERROR');
+    await SaltDatadog.logError(message);
+    await SaltDatadog.stopView();
+    await SaltDatadog.log(message);
   };
 
   runZoned(() {
     runApp(MyApp());
-  }, onError: (e, stackTrace) {
-    print('[$e] [$stackTrace]');
+  }, onError: (e, stackTrace) async {
+    final message = 'runZoned onError(): exception: [$e], stack: [$stackTrace]';
+    print(message);
+    await SaltDatadog.log(message);
+    await SaltDatadog.startView(viewName: 'ZONED_ERROR');
+    await SaltDatadog.logError(message);
+    await SaltDatadog.stopView();
   });
 }
 
@@ -26,31 +34,9 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class DatadogNavigatorObserver extends NavigatorObserver {
-  @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
-    // SaltDatadog.stopView(viewKey: previousRoute?.settings?.name);
-    // SaltDatadog.startView(viewKey: route?.settings?.name);
-    // log('didPush route=${route?.settings?.name} previousRoute=${previousRoute?.settings?.name}');
-  }
-}
-
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
   int viewNumber = 0;
   bool viewStarted = false;
-
-  @override
-  void dispose() {
-    print('dispose');
-    // SaltDatadog.stopView(viewKey: '/home');
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
@@ -59,19 +45,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    String platformVersion;
-    try {
-      final result = await SaltDatadog.init();
-      print('init: ${result.toString()}');
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+    final result = await SaltDatadog.init();
+    print('init datadog: ${result.toString()}');
   }
 
   random(List<dynamic> list) {
@@ -82,7 +57,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final now = () => DateTime.now().toIso8601String();
     return MaterialApp(
-      // navigatorObservers: [DatadogNavigatorObserver()],
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Datadog demo application'),
@@ -91,6 +65,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              Text('Datadog RUM API', style: TextStyle(fontSize: 20)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -184,72 +159,50 @@ class _MyAppState extends State<MyApp> {
               ),
               RaisedButton(
                 onPressed: () async {
+                  await SaltDatadog.logError(
+                    'I am an error log message from view $viewNumber at ${now()}',
+                  );
+                },
+                child: Text('Log an error'),
+              ),
+              Text('Datadog logging API', style: TextStyle(fontSize: 20)),
+              RaisedButton(
+                onPressed: () async {
                   await SaltDatadog.log(
                     'I am a log message from view $viewNumber at ${now()}',
                   );
                 },
                 child: Text('Log a message'),
               ),
-              RaisedButton(
-                onPressed: () async {
-                  await SaltDatadog.logErrorMessage(
-                    'I am an error log message from view $viewNumber at ${now()}',
-                  );
-                },
-                child: Text('Log error message'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  throw Exception('I am a dummy exception');
-                  // FlutterError.reportError(
-                  //   FlutterErrorDetails(
-                  //     exception: SocketException('This is a socket exception'),
-                  //     library: 'main.dart',
-                  //     context: ErrorSummary('Artificial error'),
-                  //   ),
-                  // );
-                },
-                child: Text('Throw an error'),
+              Text('Generate Flutter errors', style: TextStyle(fontSize: 20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () {
+                      throw Exception('I am a dummy exception');
+                    },
+                    child: Text('Throw an exception'),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      FlutterError.reportError(
+                        FlutterErrorDetails(
+                          exception: SocketException(
+                            'This is a socket exception raised via FlutterError',
+                          ),
+                          stack: StackTrace.current,
+                          context: ErrorSummary('Artificial error'),
+                        ),
+                      );
+                    },
+                    child: Text('Throw a FlutterError'),
+                  ),
+                ],
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class Page1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: FlatButton(
-        child: Text('Page2'),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => Page2(),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class Page2 extends StatefulWidget {
-  @override
-  _Page2State createState() => _Page2State();
-}
-
-class _Page2State extends State<Page2> {
-  final routeName = '/home';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Text('Page2'),
       ),
     );
   }
