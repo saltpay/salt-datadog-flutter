@@ -68,16 +68,16 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
         } else if (call.method.equals("addError")) {
             String message = call.argument("message");
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "addError", 
-                "message='" + message + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "addError: " +
-                "message='" + message + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "addError", 
+            //     "message='" + message + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "addError: " +
+            //     "message='" + message + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().addError(
                 message, 
                 RumErrorSource.LOGGER, 
@@ -89,48 +89,48 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             String viewKey = call.argument("viewKey").toString();
             String viewName = call.argument("viewName").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "startView", 
-                "viewName='" + viewName + "', " +
-                "viewKey='" + viewKey + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "startView: " +
-                "viewName='" + viewName + "', " +
-                "viewKey='" + viewKey + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "startView", 
+            //     "viewName='" + viewName + "', " +
+            //     "viewKey='" + viewKey + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "startView: " +
+            //     "viewName='" + viewName + "', " +
+            //     "viewKey='" + viewKey + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().startView(viewKey, viewName, attributes);
             result.success(true);
         } else if (call.method.equals("stopView")) {
             String viewKey = call.argument("viewKey").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "stopView", 
-                "viewKey='" + viewKey + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "stopView: " +
-                "viewKey='" + viewKey + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "stopView", 
+            //     "viewKey='" + viewKey + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "stopView: " +
+            //     "viewKey='" + viewKey + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().stopView(viewKey, attributes);
             result.success(true);
         } else if (call.method.equals("addUserAction")) {
             String name = call.argument("name").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "addUserAction", 
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "addUserAction: " +
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "addUserAction", 
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "addUserAction: " +
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().addUserAction(
                 RumActionType.CUSTOM,
                 name, 
@@ -140,16 +140,16 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
         } else if (call.method.equals("startUserAction")) {
             String name = call.argument("name").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "startUserAction", 
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "startUserAction: " +
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "startUserAction", 
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "startUserAction: " +
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().startUserAction(
                 RumActionType.CUSTOM,
                 name, 
@@ -159,16 +159,16 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
         } else if (call.method.equals("stopUserAction")) {
             String name = call.argument("name").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "stopUserAction", 
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "stopUserAction: " +
-                "name='" + name + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "stopUserAction", 
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "stopUserAction: " +
+            //     "name='" + name + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().stopUserAction(
                 RumActionType.CUSTOM,
                 name, 
@@ -180,20 +180,20 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             String method = call.argument("method").toString();
             String url = call.argument("url").toString();
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "startResource", 
-                "key='" + key + "', " +
-                "method='" + method + "', " +
-                "url='" + url + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "startResource: " +
-                "key='" + key + "', " +
-                "method='" + method + "', " +
-                "url='" + url + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "startResource", 
+            //     "key='" + key + "', " +
+            //     "method='" + method + "', " +
+            //     "url='" + url + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "startResource: " +
+            //     "key='" + key + "', " +
+            //     "method='" + method + "', " +
+            //     "url='" + url + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().startResource(
                 key,
                 method,
@@ -210,20 +210,20 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
                 call.argument("size").toString()
             );
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "stopResource", 
-                "key='" + key + "', " +
-                "statusCode='" + statusCode + "', " +
-                "size='" + size + "', " +
-                "attributes=" + attributes.toString()
-            );
-            datadogLogger.d(
-                "stopResource: " +
-                "key='" + key + "', " +
-                "statusCode='" + statusCode + "', " +
-                "size='" + size + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "stopResource", 
+            //     "key='" + key + "', " +
+            //     "statusCode='" + statusCode + "', " +
+            //     "size='" + size + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
+            // datadogLogger.d(
+            //     "stopResource: " +
+            //     "key='" + key + "', " +
+            //     "statusCode='" + statusCode + "', " +
+            //     "size='" + size + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             GlobalRum.get().stopResource(
                 key,
                 statusCode,
@@ -235,11 +235,11 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
         } else if (call.method.equals("log")) {
             String message = call.argument("message");
             Map<String, String> attributes = call.argument("attributes");
-            Log.d(
-                "log", 
-                "message='" + message + "', " +
-                "attributes=" + attributes.toString()
-            );
+            // Log.d(
+            //     "log", 
+            //     "message='" + message + "', " +
+            //     "attributes=" + attributes.toString()
+            // );
             datadogLogger.d(
                 "message='" + message + "', " +
                 "attributes=" + attributes.toString()
