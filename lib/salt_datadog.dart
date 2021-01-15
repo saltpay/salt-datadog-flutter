@@ -89,7 +89,7 @@ class SaltDatadog {
     });
   }
 
-  static Future<void> logErrorMessage(
+  static Future<void> logError(
     String messasge, {
     Map attributes,
   }) async {
@@ -99,7 +99,7 @@ class SaltDatadog {
     });
   }
 
-  static Future<void> logError(
+  static Future<void> logFlutterError(
     FlutterErrorDetails flutterErrorDetails, {
     Map attributes,
   }) async {
