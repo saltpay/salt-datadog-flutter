@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:salt_datadog/salt_datadog.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = (FlutterErrorDetails errorDetails) async {
     final message = errorDetails.toString();
     print(message);
