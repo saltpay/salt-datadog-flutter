@@ -240,10 +240,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "message='" + message + "', " +
             //     "attributes=" + attributes.toString()
             // );
-            datadogLogger.d(
-                "message='" + message + "', " +
-                "attributes=" + attributes.toString()
-            );
+            datadogLogger.d(message);
             result.success(true);
         } else {
             result.notImplemented();
