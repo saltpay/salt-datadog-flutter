@@ -4,8 +4,20 @@ import 'package:flutter/services.dart';
 class SaltDatadog {
   static const MethodChannel _channel = const MethodChannel('salt_datadog');
 
-  static Future<bool> init() async {
-    final bool version = await _channel.invokeMethod('init');
+  static Future<bool> init({
+    @required String clientToken,
+    @required String environment,
+    @required String applicationId,
+    @required String serviceName,
+    @required String senderId,
+  }) async {
+    final bool version = await _channel.invokeMethod('init', {
+      'clientToken': clientToken,
+      'environment': environment,
+      'applicationId': applicationId,
+      'serviceName': serviceName,
+      'senderId': senderId,
+    });
     return version;
   }
 

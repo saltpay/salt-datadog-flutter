@@ -46,7 +46,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    final result = await SaltDatadog.init();
+    final result = await SaltDatadog.init(
+      clientToken: "pub6de5d25ee61dc1cb99f774e8f935c2ca",
+      environment: "development",
+      applicationId: "441316d2-4c7b-4317-b3d4-77bb4a66927d",
+      serviceName: "co.saltpay.terminal.development",
+      senderId: "demo-application",
+    );
     print('init datadog: ${result.toString()}');
   }
 

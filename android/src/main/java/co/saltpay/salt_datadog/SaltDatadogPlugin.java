@@ -39,10 +39,16 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("init")) {
+            String clientToken = call.argument("clientToken").toString();
+            String environment = call.argument("environment").toString();
+            String applicationId = call.argument("applicationId").toString();
+            String serviceName = call.argument("serviceName").toString();
+            String senderId = call.argument("senderId").toString();
+
             DatadogConfig config = new DatadogConfig.Builder(
-                "pub6de5d25ee61dc1cb99f774e8f935c2ca", 
-                "development",
-                "441316d2-4c7b-4317-b3d4-77bb4a66927d"
+                clientToken, 
+                environment,
+                applicationId
             )
             .useEUEndpoints()
             .setRumEnabled(true)
@@ -52,13 +58,14 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
                 TrackingConsent.GRANTED,
                 config
             );
+            Datadog.setUserInfo(senderId);
             Datadog.setVerbosity(Log.INFO);
             GlobalRum.registerIfAbsent(new RumMonitor.Builder().build());
 
             datadogLogger = new Logger.Builder()
                 .setNetworkInfoEnabled(true)
-                .setServiceName("co.saltpay.terminal.salt.development")
-                .setLogcatLogsEnabled(true)
+                .setServiceName(serviceName)
+                .setLogcatLogsEnabled(false)
                 .setDatadogLogsEnabled(true)
                 .setLoggerName("datadog")
                 .build();
@@ -66,7 +73,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             datadogLogger.d("Datadog initialized");
             result.success(true);
         } else if (call.method.equals("addError")) {
-            String message = call.argument("message");
+            String message = call.argument("message").toString();
             Map<String, String> attributes = call.argument("attributes");
             // Log.d(
             //     "addError", 
@@ -233,7 +240,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             );
             result.success(true);
         } else if (call.method.equals("log")) {
-            String message = call.argument("message");
+            String message = call.argument("message").toString();
             Map<String, String> attributes = call.argument("attributes");
             // Log.d(
             //     "log", 
