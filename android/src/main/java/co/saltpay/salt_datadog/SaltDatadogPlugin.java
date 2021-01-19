@@ -44,6 +44,14 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             String applicationId = call.argument("applicationId").toString();
             String serviceName = call.argument("serviceName").toString();
             String senderId = call.argument("senderId").toString();
+            // Log.d(
+            //     "init", 
+            //     "clientToken='" + clientToken + "', " +
+            //     "environment='" + environment + "', " +
+            //     "applicationId='" + applicationId + "', " +
+            //     "serviceName='" + serviceName + "', " +
+            //     "senderId='" + senderId +"'"
+            // );
 
             DatadogConfig config = new DatadogConfig.Builder(
                 clientToken, 
