@@ -15,7 +15,6 @@ class SaltDatadog {
       'clientToken': clientToken,
       'environment': environment,
       'applicationId': applicationId,
-      'serviceName': serviceName,
       'senderId': senderId,
     });
     return version;

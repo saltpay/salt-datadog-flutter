@@ -70,9 +70,13 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             Datadog.setVerbosity(Log.INFO);
             GlobalRum.registerIfAbsent(new RumMonitor.Builder().build());
 
+            String packageName = this.flutterPluginBinding.getApplicationContext().getPackageName();
+
+            Log.d("packageName", packageName);
+
             datadogLogger = new Logger.Builder()
                 .setNetworkInfoEnabled(true)
-                .setServiceName(BuildConfig.LIBRARY_PACKAGE_NAME)
+                .setServiceName(packageName)
                 .setLogcatLogsEnabled(false)
                 .setDatadogLogsEnabled(true)
                 .setLoggerName(senderId)
