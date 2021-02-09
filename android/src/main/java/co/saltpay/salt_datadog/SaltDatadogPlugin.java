@@ -74,7 +74,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
 
             String packageName = this.flutterPluginBinding.getApplicationContext().getPackageName();
 
-            Log.d("packageName", packageName);
+            Log.d("Datadog", "packageName: " + packageName);
 
             datadogLogger = new Logger.Builder()
                     .setNetworkInfoEnabled(true)
@@ -84,7 +84,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                     .setLoggerName(senderId)
                     .build();
 
-            Log.d("init", "Datadog initialized");
+            Log.d("Datadog", "Datadog initialized");
             result.success(true);
         } else if (call.method.equals("addError")) {
             String message = call.argument("message").toString();
