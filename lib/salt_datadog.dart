@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:salt_datadog/priority.dart';
+export 'priority.dart';
 
 class SaltDatadog {
   static const MethodChannel _channel = const MethodChannel('salt_datadog');
@@ -100,11 +102,11 @@ class SaltDatadog {
   }
 
   static Future<void> logError(
-    String messasge, {
+    String message, {
     Map attributes,
   }) async {
     await _channel.invokeMethod('addError', {
-      'message': messasge,
+      'message': message,
       'attributes': attributes ?? Map<String, String>(),
     });
   }
@@ -112,9 +114,11 @@ class SaltDatadog {
   static Future<void> log(
     String message, {
     Map attributes,
+    int priority = Log.DEBUG,
   }) async {
     await _channel.invokeMethod('log', {
       'message': message,
+      'priority': priority,
       'attributes': attributes ?? Map<String, String>(),
     });
   }

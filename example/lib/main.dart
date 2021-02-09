@@ -172,13 +172,27 @@ class _MyAppState extends State<MyApp> {
                 child: Text('Log an error'),
               ),
               Text('Datadog logging API', style: TextStyle(fontSize: 20)),
-              RaisedButton(
-                onPressed: () async {
-                  await SaltDatadog.log(
-                    'I am a log message from view $viewNumber at ${now()}',
-                  );
-                },
-                child: Text('Log a message'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () async {
+                      await SaltDatadog.log(
+                        'I am a log message from view $viewNumber at ${now()}',
+                      );
+                    },
+                    child: Text('Log a message'),
+                  ),
+                  RaisedButton(
+                    onPressed: () async {
+                      await SaltDatadog.log(
+                          'I am a error log message from view $viewNumber at ${now()}',
+                          priority: Log.ERROR
+                      );
+                    },
+                    child: Text('Log an error message'),
+                  ),
+                ],
               ),
               Text('Generate Flutter errors', style: TextStyle(fontSize: 20)),
               Row(

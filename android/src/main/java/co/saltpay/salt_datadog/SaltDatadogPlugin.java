@@ -252,6 +252,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             );
             result.success(true);
         } else if (call.method.equals("log")) {
+            int priority = call.argument("priority");
             String message = call.argument("message").toString();
             Map<String, String> attributes = call.argument("attributes");
             // Log.d(
@@ -259,7 +260,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             //     "message='" + message + "', " +
             //     "attributes=" + attributes.toString()
             // );
-            datadogLogger.d(message);
+            datadogLogger.log(priority, message);
             result.success(true);
         } else if (call.method.equals("addTag")) {
             String key = call.argument("key").toString();
