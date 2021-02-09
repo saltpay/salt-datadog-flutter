@@ -120,7 +120,7 @@ class SaltDatadog {
   }
 
   static Future<void> addTag(String key, String value) async {
-    await _channel.invokeMethod('addError', {
+    await _channel.invokeMethod('addTag', {
       'key': key,
       'value': value,
     });

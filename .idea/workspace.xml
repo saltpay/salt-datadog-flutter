@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="87b11330-be74-4728-a96f-cf63cbf72af9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/salt_datadog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/salt_datadog.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
