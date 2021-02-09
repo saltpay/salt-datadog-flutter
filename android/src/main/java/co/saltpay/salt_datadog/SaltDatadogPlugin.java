@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.datadog.android.BuildConfig;
 import com.datadog.android.Datadog;
 import com.datadog.android.DatadogConfig;
 import com.datadog.android.privacy.TrackingConsent;
@@ -42,7 +43,6 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             String clientToken = call.argument("clientToken").toString();
             String environment = call.argument("environment").toString();
             String applicationId = call.argument("applicationId").toString();
-            String serviceName = call.argument("serviceName").toString();
             String senderId = call.argument("senderId").toString();
             // Log.d(
             //     "init", 
@@ -72,10 +72,10 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
             datadogLogger = new Logger.Builder()
                 .setNetworkInfoEnabled(true)
-                .setServiceName(serviceName)
+                .setServiceName(BuildConfig.LIBRARY_PACKAGE_NAME)
                 .setLogcatLogsEnabled(false)
                 .setDatadogLogsEnabled(true)
-                .setLoggerName("datadog")
+                .setLoggerName(senderId)
                 .build();
 
             datadogLogger.d("Datadog initialized");
