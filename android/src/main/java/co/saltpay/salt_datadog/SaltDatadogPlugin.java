@@ -270,7 +270,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             } else {
                 Log.e(
                         "addTag",
-                        "message='datadogLogger is not defined', "
+                        "message='datadogLogger is not defined'"
                 );
             }
         } else if (call.method.equals("addAttribute")) {
@@ -281,7 +281,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             } else {
                 Log.e(
                         "addAttribute",
-                        "message='GlobalRum is not registered', "
+                        "message='GlobalRum is not registered'"
                 );
             }
         } else {
