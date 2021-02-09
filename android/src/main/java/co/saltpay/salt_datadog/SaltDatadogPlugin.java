@@ -14,6 +14,8 @@ import com.datadog.android.rum.RumMonitor;
 import com.datadog.android.rum.RumActionType;
 import com.datadog.android.rum.RumResourceKind;
 import com.datadog.android.log.Logger;
+import com.datadog.android.rum.tracking.ActivityViewTrackingStrategy;
+import com.datadog.android.rum.tracking.ViewTrackingStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -263,7 +265,12 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
             datadogLogger.log(priority, message);
             result.success(true);
         } else if (call.method.equals("addTag")) {
-            String key = call.argument("key").toString();
+            /*
+             * From the docs
+             * Tags must be lowercase, and can be at most 200 characters. If the tag you provide is
+             * longer, only the first 200 characters will be used.
+             */
+            String key = call.argument("key").toString().toLowerCase();
             String value = call.argument("value").toString();
             if (datadogLogger != null) {
                 datadogLogger.addTag(key, value);

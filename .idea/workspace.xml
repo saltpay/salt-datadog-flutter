@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="87b11330-be74-4728-a96f-cf63cbf72af9" name="Default Changelist" comment="">
+    <list default="true" id="87b11330-be74-4728-a96f-cf63cbf72af9" name="Default Changelist" comment="Added different levels of logging to the SDK (DEBUG, ERROR)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/salt_datadog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/salt_datadog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +63,42 @@
       <option name="project" value="LOCAL" />
       <updated>1612861509404</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Remove serviceName required parameter">
+      <created>1612864705138</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1612864705138</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added different levels of logging to the SDK (DEBUG, ERROR)">
+      <created>1612866946061</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1612866946061</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Update demo app to log errors as errors.">
+      <created>1612869066326</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1612869066326</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Remove the datadog log on initialization.">
+      <created>1612869168068</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1612869168068</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fix log issue.">
+      <created>1612869195563</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1612869195563</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -72,32 +107,46 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add pacakgeName as service name" />
     <MESSAGE value="Remove serviceName required parameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove serviceName required parameter" />
+    <MESSAGE value="Added different levels of logging to the SDK (DEBUG, ERROR)" />
+    <MESSAGE value="Update demo app to log errors as errors." />
+    <MESSAGE value="Remove the datadog log on initialization." />
+    <MESSAGE value="Fix log issue." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix log issue." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="518" y="162" key="CommitChangelistDialog2" timestamp="1612861509236">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state x="518" y="148" key="CommitChangelistDialog2" timestamp="1612869195463">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
+    <state x="518" y="148" key="CommitChangelistDialog2/0.0.1920.1200@0.0.1920.1200" timestamp="1612869195463" />
     <state x="518" y="162" key="CommitChangelistDialog2/0.23.1920.1124@0.23.1920.1124" timestamp="1612861509236" />
-    <state width="1878" height="312" key="GridCell.Tab.0.bottom" timestamp="1612857948975">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state width="1878" height="495" key="GridCell.Tab.0.bottom" timestamp="1612871249687">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="312" key="GridCell.Tab.0.bottom/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948975" />
-    <state width="1878" height="312" key="GridCell.Tab.0.center" timestamp="1612857948974">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state width="1878" height="495" key="GridCell.Tab.0.bottom/0.0.1920.1200@0.0.1920.1200" timestamp="1612871249687" />
+    <state width="1878" height="495" key="GridCell.Tab.0.bottom/0.23.1920.1124@0.23.1920.1124" timestamp="1612868988132" />
+    <state width="1878" height="495" key="GridCell.Tab.0.center" timestamp="1612871249685">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="312" key="GridCell.Tab.0.center/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948974" />
-    <state width="1878" height="312" key="GridCell.Tab.0.left" timestamp="1612857948973">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state width="1878" height="495" key="GridCell.Tab.0.center/0.0.1920.1200@0.0.1920.1200" timestamp="1612871249685" />
+    <state width="1878" height="495" key="GridCell.Tab.0.center/0.23.1920.1124@0.23.1920.1124" timestamp="1612868988126" />
+    <state width="1878" height="495" key="GridCell.Tab.0.left" timestamp="1612871249682">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="312" key="GridCell.Tab.0.left/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948973" />
-    <state width="1878" height="312" key="GridCell.Tab.0.right" timestamp="1612857948974">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state width="1878" height="495" key="GridCell.Tab.0.left/0.0.1920.1200@0.0.1920.1200" timestamp="1612871249682" />
+    <state width="1878" height="495" key="GridCell.Tab.0.left/0.23.1920.1124@0.23.1920.1124" timestamp="1612868988121" />
+    <state width="1878" height="495" key="GridCell.Tab.0.right" timestamp="1612871249686">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
-    <state width="1878" height="312" key="GridCell.Tab.0.right/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948974" />
-    <state x="560" y="325" key="Vcs.Push.Dialog.v2" timestamp="1612861511688">
-      <screen x="0" y="23" width="1920" height="1124" />
+    <state width="1878" height="495" key="GridCell.Tab.0.right/0.0.1920.1200@0.0.1920.1200" timestamp="1612871249686" />
+    <state width="1878" height="495" key="GridCell.Tab.0.right/0.23.1920.1124@0.23.1920.1124" timestamp="1612868988127" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1612867665501">
+      <screen x="0" y="0" width="1920" height="1200" />
     </state>
+    <state width="500" height="445" key="SwitcherDM/0.0.1920.1200@0.0.1920.1200" timestamp="1612867665501" />
+    <state x="560" y="322" key="Vcs.Push.Dialog.v2" timestamp="1612869197216">
+      <screen x="0" y="0" width="1920" height="1200" />
+    </state>
+    <state x="560" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1200@0.0.1920.1200" timestamp="1612869197216" />
     <state x="560" y="325" key="Vcs.Push.Dialog.v2/0.23.1920.1124@0.23.1920.1124" timestamp="1612861511688" />
   </component>
 </project>
