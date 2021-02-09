@@ -8,7 +8,6 @@ class SaltDatadog {
     @required String clientToken,
     @required String environment,
     @required String applicationId,
-    @required String serviceName,
     @required String senderId,
   }) async {
     final bool version = await _channel.invokeMethod('init', {
