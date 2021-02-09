@@ -118,4 +118,18 @@ class SaltDatadog {
       'attributes': attributes ?? Map<String, String>(),
     });
   }
+
+  static Future<void> addTag(String key, String value) async {
+    await _channel.invokeMethod('addError', {
+      'key': key,
+      'value': value,
+    });
+  }
+
+  static Future<void> addAttribute(String key, String value) async {
+    await _channel.invokeMethod('addAttribute', {
+      'key': key,
+      'value': value,
+    });
+  }
 }

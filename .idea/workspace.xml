@@ -4,7 +4,6 @@
     <list default="true" id="87b11330-be74-4728-a96f-cf63cbf72af9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/salt_datadog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/salt_datadog.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,38 +50,55 @@
       <workItem from="1610534671490" duration="3701000" />
       <workItem from="1612856322448" duration="274000" />
     </task>
+    <task id="LOCAL-00001" summary="Add pacakgeName as service name">
+      <created>1612857877282</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1612857877282</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Remove serviceName required parameter">
+      <created>1612861509404</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612861509404</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state width="1878" height="450" key="GridCell.Tab.0.bottom" timestamp="1612857692118">
-      <screen x="0" y="23" width="1920" height="1124" />
-    </state>
-    <state width="1878" height="450" key="GridCell.Tab.0.bottom/0.23.1920.1124@0.23.1920.1124" timestamp="1612857692118" />
-    <state width="1878" height="450" key="GridCell.Tab.0.center" timestamp="1612857692117">
-      <screen x="0" y="23" width="1920" height="1124" />
-    </state>
-    <state width="1878" height="450" key="GridCell.Tab.0.center/0.23.1920.1124@0.23.1920.1124" timestamp="1612857692117" />
-    <state width="1878" height="450" key="GridCell.Tab.0.left" timestamp="1612857692117">
-      <screen x="0" y="23" width="1920" height="1124" />
-    </state>
-    <state width="1878" height="450" key="GridCell.Tab.0.left/0.23.1920.1124@0.23.1920.1124" timestamp="1612857692117" />
-    <state width="1878" height="450" key="GridCell.Tab.0.right" timestamp="1612857692118">
-      <screen x="0" y="23" width="1920" height="1124" />
-    </state>
-    <state width="1878" height="450" key="GridCell.Tab.0.right/0.23.1920.1124@0.23.1920.1124" timestamp="1612857692118" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add pacakgeName as service name" />
+    <MESSAGE value="Remove serviceName required parameter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove serviceName required parameter" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/android/src/main/java/co/saltpay/salt_datadog/SaltDatadogPlugin.java</url>
-          <line>80</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="WindowStateProjectService">
+    <state x="518" y="162" key="CommitChangelistDialog2" timestamp="1612861509236">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state x="518" y="162" key="CommitChangelistDialog2/0.23.1920.1124@0.23.1920.1124" timestamp="1612861509236" />
+    <state width="1878" height="312" key="GridCell.Tab.0.bottom" timestamp="1612857948975">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state width="1878" height="312" key="GridCell.Tab.0.bottom/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948975" />
+    <state width="1878" height="312" key="GridCell.Tab.0.center" timestamp="1612857948974">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state width="1878" height="312" key="GridCell.Tab.0.center/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948974" />
+    <state width="1878" height="312" key="GridCell.Tab.0.left" timestamp="1612857948973">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state width="1878" height="312" key="GridCell.Tab.0.left/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948973" />
+    <state width="1878" height="312" key="GridCell.Tab.0.right" timestamp="1612857948974">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state width="1878" height="312" key="GridCell.Tab.0.right/0.23.1920.1124@0.23.1920.1124" timestamp="1612857948974" />
+    <state x="560" y="325" key="Vcs.Push.Dialog.v2" timestamp="1612861511688">
+      <screen x="0" y="23" width="1920" height="1124" />
+    </state>
+    <state x="560" y="325" key="Vcs.Push.Dialog.v2/0.23.1920.1124@0.23.1920.1124" timestamp="1612861511688" />
   </component>
 </project>

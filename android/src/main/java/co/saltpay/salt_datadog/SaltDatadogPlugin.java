@@ -25,7 +25,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-    public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
+public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
     private MethodChannel channel;
     private FlutterPluginBinding flutterPluginBinding;
     private Logger datadogLogger;
@@ -54,17 +54,17 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             // );
 
             DatadogConfig config = new DatadogConfig.Builder(
-                clientToken, 
-                environment,
-                applicationId
+                    clientToken,
+                    environment,
+                    applicationId
             )
-            .useEUEndpoints()
-            .setRumEnabled(true)
-            .build();
+                    .useEUEndpoints()
+                    .setRumEnabled(true)
+                    .build();
             Datadog.initialize(
-                this.flutterPluginBinding.getApplicationContext(),
-                TrackingConsent.GRANTED,
-                config
+                    this.flutterPluginBinding.getApplicationContext(),
+                    TrackingConsent.GRANTED,
+                    config
             );
             Datadog.setUserInfo(senderId);
             Datadog.setVerbosity(Log.INFO);
@@ -75,12 +75,12 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             Log.d("packageName", packageName);
 
             datadogLogger = new Logger.Builder()
-                .setNetworkInfoEnabled(true)
-                .setServiceName(packageName)
-                .setLogcatLogsEnabled(false)
-                .setDatadogLogsEnabled(true)
-                .setLoggerName(senderId)
-                .build();
+                    .setNetworkInfoEnabled(true)
+                    .setServiceName(packageName)
+                    .setLogcatLogsEnabled(false)
+                    .setDatadogLogsEnabled(true)
+                    .setLoggerName(senderId)
+                    .build();
 
             datadogLogger.d("Datadog initialized");
             result.success(true);
@@ -98,12 +98,12 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().addError(
-                message, 
-                RumErrorSource.LOGGER, 
-                null, 
-                attributes
+                    message,
+                    RumErrorSource.LOGGER,
+                    null,
+                    attributes
             );
-            result.success(true);            
+            result.success(true);
         } else if (call.method.equals("startView")) {
             String viewKey = call.argument("viewKey").toString();
             String viewName = call.argument("viewName").toString();
@@ -151,9 +151,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().addUserAction(
-                RumActionType.CUSTOM,
-                name, 
-                attributes
+                    RumActionType.CUSTOM,
+                    name,
+                    attributes
             );
             result.success(true);
         } else if (call.method.equals("startUserAction")) {
@@ -170,9 +170,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().startUserAction(
-                RumActionType.CUSTOM,
-                name, 
-                attributes
+                    RumActionType.CUSTOM,
+                    name,
+                    attributes
             );
             result.success(true);
         } else if (call.method.equals("stopUserAction")) {
@@ -189,9 +189,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().stopUserAction(
-                RumActionType.CUSTOM,
-                name, 
-                attributes
+                    RumActionType.CUSTOM,
+                    name,
+                    attributes
             );
             result.success(true);
         } else if (call.method.equals("startResource")) {
@@ -214,19 +214,19 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().startResource(
-                key,
-                method,
-                url, 
-                attributes
+                    key,
+                    method,
+                    url,
+                    attributes
             );
             result.success(true);
         } else if (call.method.equals("stopResource")) {
             String key = call.argument("key").toString();
             int statusCode = Integer.parseInt(
-                call.argument("statusCode").toString()
+                    call.argument("statusCode").toString()
             );
             long size = Integer.parseInt(
-                call.argument("size").toString()
+                    call.argument("size").toString()
             );
             Map<String, String> attributes = call.argument("attributes");
             // Log.d(
@@ -244,11 +244,11 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             //     "attributes=" + attributes.toString()
             // );
             GlobalRum.get().stopResource(
-                key,
-                statusCode,
-                size,
-                RumResourceKind.DOCUMENT,
-                attributes
+                    key,
+                    statusCode,
+                    size,
+                    RumResourceKind.DOCUMENT,
+                    attributes
             );
             result.success(true);
         } else if (call.method.equals("log")) {
@@ -261,6 +261,28 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
             // );
             datadogLogger.d(message);
             result.success(true);
+        } else if (call.method.equals("addTag")) {
+            String key = call.argument("key").toString();
+            String value = call.argument("value").toString();
+            if (datadogLogger != null) {
+                datadogLogger.addTag(key, value);
+            } else {
+                Log.e(
+                        "addTag",
+                        "message='datadogLogger is not defined', "
+                );
+            }
+        } else if (call.method.equals("addAttribute")) {
+            String key = call.argument("key").toString();
+            String value = call.argument("value").toString();
+            if (GlobalRum.isRegistered()) {
+                GlobalRum.addAttribute(key, value);
+            } else {
+                Log.e(
+                        "addAttribute",
+                        "message='GlobalRum is not registered', "
+                );
+            }
         } else {
             result.notImplemented();
         }
