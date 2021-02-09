@@ -82,7 +82,7 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                     .setLoggerName(senderId)
                     .build();
 
-            datadogLogger.d("Datadog initialized");
+            Log.d("Datadog initialized");
             result.success(true);
         } else if (call.method.equals("addError")) {
             String message = call.argument("message").toString();
