@@ -13,7 +13,7 @@ void main() {
     await SaltDatadog.startView(viewName: 'FLUTTER_ERROR');
     await SaltDatadog.logError(message);
     await SaltDatadog.stopView();
-    await SaltDatadog.log(message);
+    await SaltDatadog.log(message, priority: Log.ERROR);
   };
 
   runZoned(() {
@@ -21,7 +21,7 @@ void main() {
   }, onError: (e, stackTrace) async {
     final message = 'runZoned onError(): exception: [$e], stack: [$stackTrace]';
     print(message);
-    await SaltDatadog.log(message);
+    await SaltDatadog.log(message, priority: Log.ERROR);
     await SaltDatadog.startView(viewName: 'ZONED_ERROR');
     await SaltDatadog.logError(message);
     await SaltDatadog.stopView();
