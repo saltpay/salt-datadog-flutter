@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
       senderId: "demo-application",
     );
     print('init datadog: ${result.toString()}');
+    await SaltDatadog.addAttribute('demoGlobalAttribute', 'demo-attribute');
   }
 
   random(List<dynamic> list) {
@@ -187,8 +188,7 @@ class _MyAppState extends State<MyApp> {
                     onPressed: () async {
                       await SaltDatadog.log(
                           'I am a error log message from view $viewNumber at ${now()}',
-                          priority: Log.ERROR
-                      );
+                          priority: Log.ERROR);
                     },
                     child: Text('Log an error message'),
                   ),
