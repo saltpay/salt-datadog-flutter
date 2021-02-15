@@ -69,7 +69,6 @@ public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
                     TrackingConsent.GRANTED,
                     config
             );
-            Datadog.setUserInfo(senderId);
             Datadog.setVerbosity(Log.INFO);
             GlobalRum.registerIfAbsent(new RumMonitor.Builder().build());
 
