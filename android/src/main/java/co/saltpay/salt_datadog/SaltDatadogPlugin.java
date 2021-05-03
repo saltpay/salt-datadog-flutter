@@ -26,7 +26,6 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import kotlin.Unit;
 
 public class SaltDatadogPlugin implements FlutterPlugin, MethodCallHandler {
     private MethodChannel channel;
